@@ -3,17 +3,20 @@ resource "volterra_route" "default" {
   name      = "routes-${var.namespace}-${var.key}"
   namespace = "nspace-${var.platform}-${var.namespace}"
 
-  routes {
-    match {
-      http_method = "ANY"
-      path {
-        path = "/initial-path-needed-for-route-creation"
+  dynamic "routes" {
+    for_each = toset(var.path_redirects)
+    content {
+      match {
+        http_method = "ANY"
+        path {
+          path = routes.key
+        }
       }
-    }
-    route_redirect {
-      path_redirect  = "/initial-path-needed-for-route-creation"
-      response_code  = 301
-      proto_redirect = "incoming-proto"
+      route_redirect {
+        path_redirect  = routes.value
+        response_code  = 301
+        proto_redirect = "incoming-proto"
+      }
     }
   }
 }
@@ -23,17 +26,20 @@ resource "volterra_route" "ignore_route_changes" {
   name      = "routes-${var.namespace}-${var.key}"
   namespace = "nspace-${var.platform}-${var.namespace}"
 
-  routes {
-    match {
-      http_method = "ANY"
-      path {
-        path = "/initial-path-needed-for-route-creation"
+  dynamic "routes" {
+    for_each = toset(var.path_redirects)
+    content {
+      match {
+        http_method = "ANY"
+        path {
+          path = routes.key
+        }
       }
-    }
-    route_redirect {
-      path_redirect  = "/initial-path-needed-for-route-creation"
-      response_code  = 301
-      proto_redirect = "incoming-proto"
+      route_redirect {
+        path_redirect  = routes.value
+        response_code  = 301
+        proto_redirect = "incoming-proto"
+      }
     }
   }
 

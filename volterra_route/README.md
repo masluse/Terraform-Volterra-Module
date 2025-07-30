@@ -58,10 +58,11 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_ignore_route_changes"></a> [ignore\_route\_changes](#input\_ignore\_route\_changes) | n/a | `bool` | `false` | no |
-| <a name="input_key"></a> [key](#input\_key) | n/a | `string` | n/a | yes |
-| <a name="input_namespace"></a> [namespace](#input\_namespace) | n/a | `string` | n/a | yes |
-| <a name="input_platform"></a> [platform](#input\_platform) | n/a | `string` | n/a | yes |
+| <a name="input_ignore_route_changes"></a> [ignore\_route\_changes](#input\_ignore\_route\_changes) | Flag to ignore changes in route configuration. | `bool` | `false` | no |
+| <a name="input_key"></a> [key](#input\_key) | A unique key to identify the route configuration. | `string` | n/a | yes |
+| <a name="input_namespace"></a> [namespace](#input\_namespace) | The namespace in which the route is defined. | `string` | n/a | yes |
+| <a name="input_path_redirects"></a> [path\_redirects](#input\_path\_redirects) | A map of path redirects for the route. | `any` | n/a | yes |
+| <a name="input_platform"></a> [platform](#input\_platform) | The platform for which the route is being configured. | `string` | n/a | yes |
 
 ## Outputs
 
