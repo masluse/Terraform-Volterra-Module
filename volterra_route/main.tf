@@ -4,7 +4,7 @@ resource "volterra_route" "default" {
   namespace = "nspace-${var.platform}-${var.namespace}"
 
   dynamic "routes" {
-    for_each = toset(var.path_redirects)
+    for_each = var.path_redirects
     content {
       match {
         http_method = "ANY"
@@ -27,7 +27,7 @@ resource "volterra_route" "ignore_route_changes" {
   namespace = "nspace-${var.platform}-${var.namespace}"
 
   dynamic "routes" {
-    for_each = toset(var.path_redirects)
+    for_each = var.path_redirects
     content {
       match {
         http_method = "ANY"
