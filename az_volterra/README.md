@@ -100,7 +100,12 @@ No requirements.
 
 ## Providers
 
-No providers.
+| Name | Version |
+|------|---------|
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | n/a |
+| <a name="provider_cloudinit"></a> [cloudinit](#provider\_cloudinit) | n/a |
+| <a name="provider_terraform"></a> [terraform](#provider\_terraform) | n/a |
+| <a name="provider_volterra"></a> [volterra](#provider\_volterra) | n/a |
 
 ## Modules
 
@@ -108,11 +113,37 @@ No modules.
 
 ## Resources
 
-No resources.
+| Name | Type |
+|------|------|
+| [azurerm_linux_virtual_machine.default](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine) | resource |
+| [azurerm_network_interface.nic-inside](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface) | resource |
+| [azurerm_network_interface.nic-outside](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface) | resource |
+| [azurerm_network_interface_security_group_association.inside](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface_security_group_association) | resource |
+| [azurerm_network_interface_security_group_association.outside](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface_security_group_association) | resource |
+| [azurerm_public_ip.ip-public](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/public_ip) | resource |
+| [terraform_data.vm_replacement](https://registry.terraform.io/providers/hashicorp/terraform/latest/docs/resources/data) | resource |
+| [volterra_known_label.cloudprovider](https://registry.terraform.io/providers/volterraedge/volterra/latest/docs/resources/known_label) | resource |
+| [volterra_known_label.cloudregion](https://registry.terraform.io/providers/volterraedge/volterra/latest/docs/resources/known_label) | resource |
+| [volterra_known_label_key.provider](https://registry.terraform.io/providers/volterraedge/volterra/latest/docs/resources/known_label_key) | resource |
+| [volterra_known_label_key.region](https://registry.terraform.io/providers/volterraedge/volterra/latest/docs/resources/known_label_key) | resource |
+| [volterra_securemesh_site_v2.default](https://registry.terraform.io/providers/volterraedge/volterra/latest/docs/resources/securemesh_site_v2) | resource |
+| [volterra_token.default](https://registry.terraform.io/providers/volterraedge/volterra/latest/docs/resources/token) | resource |
+| [volterra_virtual_site.default](https://registry.terraform.io/providers/volterraedge/volterra/latest/docs/resources/virtual_site) | resource |
+| [azurerm_network_security_group.inside](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/network_security_group) | data source |
+| [azurerm_network_security_group.outside](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/network_security_group) | data source |
+| [azurerm_resource_group.default](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group) | data source |
+| [azurerm_subnet.inside](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subnet) | data source |
+| [azurerm_subnet.outside](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subnet) | data source |
+| [azurerm_virtual_network.default](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/virtual_network) | data source |
+| [cloudinit_config.f5xc-ce_config](https://registry.terraform.io/providers/hashicorp/cloudinit/latest/docs/data-sources/config) | data source |
 
 ## Inputs
 
-No inputs.
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_key"></a> [key](#input\_key) | n/a | `string` | n/a | yes |
+| <a name="input_ssh_key"></a> [ssh\_key](#input\_ssh\_key) | n/a | `any` | n/a | yes |
+| <a name="input_value"></a> [value](#input\_value) | n/a | `any` | n/a | yes |
 
 ## Outputs
 
