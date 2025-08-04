@@ -66,7 +66,7 @@ locals {
 
 ```hcl
 module "volterra_loadbalancer" {
-  source   = "git::https://gitlab.gcp.fenaco.com/templates/terraform-modules/terraform-volterra.git//volterra_loadbalancer?ref=v1.0.0"
+  source   = "git::https://gitlab.gcp.fenaco.com/templates/terraform-modules/terraform-volterra.git//volterra_loadbalancer?ref=v1.0.1"
   for_each = local.loadbalancer
 
   # Variables

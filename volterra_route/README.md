@@ -14,6 +14,9 @@ locals {
     clickops = {
       namespace            = "aop"
       ignore_route_changes = true
+      path_redirects = {
+        "/initial" = "/initial"
+      }
     }
   }
 }
@@ -23,7 +26,7 @@ locals {
 
 ```hcl
 module "volterra_route" {
-  source   = "git::https://gitlab.gcp.fenaco.com/templates/terraform-modules/terraform-volterra.git//volterra_route?ref=v1.0.0"
+  source   = "git::https://gitlab.gcp.fenaco.com/templates/terraform-modules/terraform-volterra.git//volterra_route?ref=v1.0.1"
   for_each  = local.routes
   
   platform  = local.platform

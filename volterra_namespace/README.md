@@ -20,7 +20,7 @@ locals {
 
 ```hcl
 module "volterra_namespace" {
-  source   = "git::https://gitlab.gcp.fenaco.com/templates/terraform-modules/terraform-volterra.git//volterra_namespace?ref=v1.0.0"
+  source   = "git::https://gitlab.gcp.fenaco.com/templates/terraform-modules/terraform-volterra.git//volterra_namespace?ref=v1.0.1"
   for_each = local.namespaces
 
   key      = each.key

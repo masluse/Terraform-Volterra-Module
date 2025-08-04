@@ -62,11 +62,6 @@ locals {
           }
         }
       }
-      dns_records = {
-        aop-prd = {
-          ipv4_address = ["10.168.66.9"]
-        }
-      }
     }
   }
 }
@@ -76,7 +71,7 @@ locals {
 
 ```hcl
 module "gcp_volterra" {
-  source   = "git::https://gitlab.gcp.fenaco.com/templates/terraform-modules/terraform-volterra.git//gcp_volterra?ref=v1.0.0"
+  source   = "git::https://gitlab.gcp.fenaco.com/templates/terraform-modules/terraform-volterra.git//gcp_volterra?ref=v1.0.1"
   for_each = local.volterra
 
   # Variables
