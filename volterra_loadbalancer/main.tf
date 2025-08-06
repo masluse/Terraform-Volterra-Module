@@ -203,7 +203,7 @@ resource "volterra_http_loadbalancer" "default" {
       redirect_route {
         http_method = "ANY"
         path {
-          path = "/"
+          prefix = "/"
         }
         route_redirect {
           proto_redirect = "incoming-proto"
