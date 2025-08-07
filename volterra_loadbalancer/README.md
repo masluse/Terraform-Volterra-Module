@@ -125,7 +125,6 @@ No modules.
 | <a name="input_key"></a> [key](#input\_key) | The key for the Volterra resources. | `string` | n/a | yes |
 | <a name="input_platform"></a> [platform](#input\_platform) | Platform for which the Volterra resources are being configured, e.g., GCP, AZURE, MULTI. | `string` | n/a | yes |
 | <a name="input_tenant"></a> [tenant](#input\_tenant) | The tenant for which the Volterra resources are being configured. | `string` | n/a | yes |
-| <a name="input_trusted_clients"></a> [trusted\_clients](#input\_trusted\_clients) | The configuration of the trusted clients | `any` | n/a | yes |
 | <a name="input_value"></a> [value](#input\_value) | The value for the Volterra resources. | `any` | n/a | yes |
 
 ## Outputs
