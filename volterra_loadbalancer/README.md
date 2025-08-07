@@ -11,15 +11,15 @@ To use this module, include it in your Terraform configuration as shown below:
 ```hcl
 locals {
   loadbalancer = {
-    aop-prd = {
+    aop-uat = {
       namespace      = "aop"
-      tenant         = "fenaco-ayqamaub"
+      tenant         = "bison-group-yybostat"
       site_name      = "vsite-gcp-p"
       site_namespace = "shared"
       origin_pool = {
         endpoint_selection     = "DISTRIBUTED"
         loadbalancer_algorithm = "ROUND_ROBIN"
-        os_pn_ip               = "10.168.66.9"
+        os_pn_ip               = "10.168.59.7"
         os_pn_inside_network   = true
         port                   = 80
         no_tls                 = true
@@ -37,7 +37,7 @@ locals {
         use_default_blocking_page                  = true
       }
       loadbalancer = {
-        domains                          = ["aop.xc.fenaco.com", "www.aop.xc.fenaco.com"]
+        domains                          = ["uat.aop.nprd.gcp.fenaco.com", "www.uat.aop.nprd.gcp.fenaco.com", "uat-proxy.aop.nprd.gcp.fenaco.com", "uat-mc.aop.nprd.gcp.fenaco.com"]
         http_port                        = 80
         https_port                       = 443
         advertise_on_public_default_vip  = true
@@ -51,8 +51,26 @@ locals {
         active_service_policies = {
           sp-default-fenaco   = {}
           sp-pentest-redguard = {}
+          sp-gcp-saucelabs    = {}
         }
-        www_redirect                    = ["aop.xc.fenaco.com"]
+        trusted_clients = {
+          redguard = {
+            description = "temporary exception for Redguard tests"
+            actions = [
+              "SKIP_PROCESSING_API_PROTECTION",
+              "SKIP_PROCESSING_BOT",
+              "SKIP_PROCESSING_DDOS_PROTECTION",
+              "SKIP_PROCESSING_IP_REPUTATION",
+              "SKIP_PROCESSING_MUM",
+              "SKIP_PROCESSING_MALWARE_PROTECTION",
+              "SKIP_PROCESSING_OAS_VALIDATION",
+              "SKIP_PROCESSING_THREAT_MESH",
+              "SKIP_PROCESSING_WAF"
+            ]
+            ip_prefix = "159.100.245.54/32"
+          }
+        }
+        www_redirect                    = ["uat.aop.nprd.gcp.fenaco.com"]
         custom_route                    = ["clickops"]
         disable_trust_client_ip_headers = true
         user_id_client_ip               = true
@@ -107,6 +125,7 @@ No modules.
 | <a name="input_key"></a> [key](#input\_key) | The key for the Volterra resources. | `string` | n/a | yes |
 | <a name="input_platform"></a> [platform](#input\_platform) | Platform for which the Volterra resources are being configured, e.g., GCP, AZURE, MULTI. | `string` | n/a | yes |
 | <a name="input_tenant"></a> [tenant](#input\_tenant) | The tenant for which the Volterra resources are being configured. | `string` | n/a | yes |
+| <a name="input_trusted_clients"></a> [trusted\_clients](#input\_trusted\_clients) | The configuration of the trusted clients | `any` | n/a | yes |
 | <a name="input_value"></a> [value](#input\_value) | The value for the Volterra resources. | `any` | n/a | yes |
 
 ## Outputs

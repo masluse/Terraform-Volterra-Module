@@ -149,6 +149,17 @@ resource "volterra_http_loadbalancer" "default" {
     namespace = "nspace-${var.platform}-${var.value.namespace}"
   }
 
+  dynamic "trusted_clients" {
+    for_each = var.value.loadbalancer.trusted_clients
+    content {
+      actions   = trusted_clients.value.actions
+      ip_prefix = trusted_clients.value.ip_prefix
+      metadata {
+        name        = "tc-${var.platform}-${trusted_clients.key}"
+        description = trusted_clients.value.description
+      }
+    }
+  }
 
   // One of the arguments from this list "api_definition api_definitions api_specification disable_api_definition" must be set
 
