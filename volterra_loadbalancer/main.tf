@@ -189,16 +189,19 @@ resource "volterra_http_loadbalancer" "default" {
 
   no_service_policies = var.value.loadbalancer.no_service_policies
 
-  active_service_policies {
-    dynamic "policies" {
-      for_each = var.value.loadbalancer.active_service_policies
-      content {
-        name      = policies.key
-        namespace = "nspace-${var.platform}-${var.value.namespace}"
-        tenant    = var.value.tenant
+  dynamic "active_service_policies" {
+    # nur erzeugen, wenn KEIN no_service_policies aktiv ist
+    for_each = var.value.loadbalancer.no_service_policies ? [] : [1]
+    content {
+      dynamic "policies" {
+        for_each = try(var.value.loadbalancer.active_service_policies, {})
+        content {
+          name      = policies.key
+          namespace = "nspace-${var.platform}-${var.value.namespace}"
+          tenant    = var.value.tenant
+        }
       }
     }
-  }
 
   // One of the arguments from this list "disable_trust_client_ip_headers enable_trust_client_ip_headers" must be set
 
