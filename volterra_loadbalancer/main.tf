@@ -202,6 +202,7 @@ resource "volterra_http_loadbalancer" "default" {
         }
       }
     }
+  }
 
   // One of the arguments from this list "disable_trust_client_ip_headers enable_trust_client_ip_headers" must be set
 
