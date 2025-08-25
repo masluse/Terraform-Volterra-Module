@@ -236,7 +236,7 @@ resource "volterra_http_loadbalancer" "default" {
   dynamic "routes" {
     for_each = var.value.loadbalancer.simple_routes
     content {
-      simple_routes {
+      simple_route {
         http_method = routes.value.http_method
         path {
           prefix = routes.value.prefix
