@@ -248,7 +248,7 @@ resource "volterra_http_loadbalancer" "default" {
         }
         advanced_options {
           dynamic "request_headers_to_add" {
-            for_each = toset(routes.value.request_headers_to_add)
+            for_each = routes.value.request_headers_to_add
             content {
               append = false
               name   = request_headers_to_add.key
