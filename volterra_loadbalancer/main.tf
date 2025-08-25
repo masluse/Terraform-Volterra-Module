@@ -237,6 +237,13 @@ resource "volterra_http_loadbalancer" "default" {
     for_each = var.value.loadbalancer.simple_routes
     content {
       simple_route {
+        origin_pools {
+          pool {
+            tenant    = var.value.tenant
+            name      = "pool-${var.platform}-${var.key}"
+            namespace = "nspace-${var.platform}-${var.value.namespace}"
+          }
+        }
         http_method = routes.value.http_method
         path {
           prefix = routes.value.prefix
