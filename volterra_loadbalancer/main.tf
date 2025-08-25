@@ -234,6 +234,19 @@ resource "volterra_http_loadbalancer" "default" {
   }
 
   dynamic "routes" {
+    for_each = toset(var.value.loadbalancer.custom_route)
+    content {
+      custom_route_object {
+        route_ref {
+          name      = "routes-${var.value.namespace}-${routes.key}"
+          namespace = "nspace-${var.platform}-${var.value.namespace}"
+          tenant    = var.value.tenant
+        }
+      }
+    }
+  }
+
+  dynamic "routes" {
     for_each = var.value.loadbalancer.simple_routes
     content {
       simple_route {
@@ -262,19 +275,6 @@ resource "volterra_http_loadbalancer" "default" {
               value  = request_headers_to_add.value
             }
           }
-        }
-      }
-    }
-  }
-
-  dynamic "routes" {
-    for_each = toset(var.value.loadbalancer.custom_route)
-    content {
-      custom_route_object {
-        route_ref {
-          name      = "routes-${var.value.namespace}-${routes.key}"
-          namespace = "nspace-${var.platform}-${var.value.namespace}"
-          tenant    = var.value.tenant
         }
       }
     }
