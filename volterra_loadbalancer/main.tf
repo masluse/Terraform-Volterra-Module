@@ -234,6 +234,33 @@ resource "volterra_http_loadbalancer" "default" {
   }
 
   dynamic "routes" {
+    for_each = var.value.loadbalancer.simple_routes
+    content {
+      simple_routes {
+        http_method = routes.value.http_method
+        path {
+          prefix = routes.value.prefix
+        }
+        disable_host_rewrite = true
+        headers {
+          exact = routes.key
+          name  = "host"
+        }
+        advanced_options {
+          dynamic "request_headers_to_add" {
+            for_each = toset(routes.value.request_headers_to_add)
+            content {
+              append = false
+              name   = request_headers_to_add.key
+              value  = request_headers_to_add.value
+            }
+          }
+        }
+      }
+    }
+  }
+
+  dynamic "routes" {
     for_each = toset(var.value.loadbalancer.custom_route)
     content {
       custom_route_object {
