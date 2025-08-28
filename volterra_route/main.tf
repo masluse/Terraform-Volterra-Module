@@ -11,7 +11,7 @@ resource "volterra_route" "default" {
         content {
           http_method = "ANY"
           path {
-            path = match.key
+            path = match.value.path
           }
           dynamic "query_params" {
             for_each = match.value.query_params
@@ -23,7 +23,7 @@ resource "volterra_route" "default" {
         }
       }
       route_redirect {
-        path_redirect  = routes.value.path_redirect
+        path_redirect  = routes.key
         response_code  = 301
         proto_redirect = "incoming-proto"
         remove_all_params = routes.value.params == "remove" ? true : false
@@ -45,7 +45,7 @@ resource "volterra_route" "ignore_route_changes" {
         content {
           http_method = "ANY"
           path {
-            path = match.key
+            path = match.value.path
           }
           dynamic "query_params" {
             for_each = match.value.query_params
@@ -57,7 +57,7 @@ resource "volterra_route" "ignore_route_changes" {
         }
       }
       route_redirect {
-        path_redirect  = routes.value.path_redirect
+        path_redirect  = routes.key
         response_code  = 301
         proto_redirect = "incoming-proto"
         remove_all_params = routes.value.params == "remove" ? true : false
