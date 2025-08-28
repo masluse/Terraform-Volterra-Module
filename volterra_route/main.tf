@@ -39,14 +39,24 @@ resource "volterra_route" "ignore_route_changes" {
   dynamic "routes" {
     for_each = var.path_redirects
     content {
-      match {
-        http_method = "ANY"
-        path {
-          path = routes.key
+      dynamic "match" {
+        for_each = route.value
+        content {
+          http_method = "ANY"
+          path {
+            path = match.key
+          }
+          dynamic "query_params" {
+            for_each = match.value.query_params
+            content {
+              key   = query_params.value
+              exact = query_params.key
+            }
+          }
         }
       }
       route_redirect {
-        path_redirect  = routes.value
+        path_redirect  = routes.key
         response_code  = 301
         proto_redirect = "incoming-proto"
       }
