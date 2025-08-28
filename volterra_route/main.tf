@@ -16,8 +16,15 @@ resource "volterra_route" "default" {
           dynamic "query_params" {
             for_each = match.value.query_params
             content {
-              key   = query_params.value
-              exact = query_params.key
+              key   = query_params.key
+              exact = query_params.value
+            }
+          }
+          dynamic "headers" {
+            for_each = match.value.headers
+            content {
+              name  = headers.key
+              exact = headers.value
             }
           }
         }
@@ -50,8 +57,15 @@ resource "volterra_route" "ignore_route_changes" {
           dynamic "query_params" {
             for_each = match.value.query_params
             content {
-              key   = query_params.value
-              exact = query_params.key
+              key   = query_params.key
+              exact = query_params.value
+            }
+          }
+          dynamic "headers" {
+            for_each = match.value.headers
+            content {
+              name  = headers.key
+              exact = headers.value
             }
           }
         }
