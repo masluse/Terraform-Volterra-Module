@@ -57,7 +57,7 @@ resource "volterra_route" "ignore_route_changes" {
         }
       }
       route_redirect {
-        path_redirect  = routes.key
+        path_redirect  = routes.value.path_redirect
         response_code  = 301
         proto_redirect = "incoming-proto"
         remove_all_params = routes.value.params == "remove" ? true : false
