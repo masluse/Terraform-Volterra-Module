@@ -7,7 +7,7 @@ resource "volterra_route" "default" {
     for_each = var.path_redirects
     content {
       dynamic "match" {
-        for_each = route.value
+        for_each = routes.value
         content {
           http_method = "ANY"
           path {
@@ -40,7 +40,7 @@ resource "volterra_route" "ignore_route_changes" {
     for_each = var.path_redirects
     content {
       dynamic "match" {
-        for_each = route.value
+        for_each = routes.value
         content {
           http_method = "ANY"
           path {
