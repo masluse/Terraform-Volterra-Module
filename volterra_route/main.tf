@@ -48,11 +48,11 @@ resource "volterra_route" "ignore_route_changes" {
     for_each = var.path_redirects
     content {
       dynamic "match" {
-        for_each = replace(replace(replace(replace(replace(match.value.path, " ", "%20"), "ä", "%C3%A4"), "ö", "%C3%B6"), "ü", "%C3%BC"), "é", "%C3%A9")
+        for_each = routes.value.match
         content {
           http_method = "ANY"
           path {
-            path = match.value.path
+            path = replace(replace(replace(replace(replace(match.value.path, " ", "%20"), "ä", "%C3%A4"), "ö", "%C3%B6"), "ü", "%C3%BC"), "é", "%C3%A9")
           }
           dynamic "query_params" {
             for_each = match.value.query_params
