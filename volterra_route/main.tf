@@ -17,7 +17,7 @@ resource "volterra_route" "default" {
             for_each = match.value.query_params
             content {
               key   = query_params.key
-              exact = query_params.value
+              exact = replace(query_params.value, " ", "%20")
             }
           }
           dynamic "headers" {
@@ -58,7 +58,7 @@ resource "volterra_route" "ignore_route_changes" {
             for_each = match.value.query_params
             content {
               key   = query_params.key
-              exact = query_params.value
+              exact = replace(query_params.value, " ", "%20")
             }
           }
           dynamic "headers" {
