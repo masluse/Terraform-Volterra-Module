@@ -17,7 +17,7 @@ resource "volterra_route" "default" {
             for_each = match.value.query_params
             content {
               key   = query_params.key
-              exact = replace(query_params.value, " ", "%20")
+              exact = replace(replace(replace(replace(replace(query_params.value, " ", "%20"), "ä", "%C3%A4"), "ö", "%C3%B6"), "ü", "%C3%BC"), "é", "%C3%A9")
             }
           }
           dynamic "headers" {
@@ -58,7 +58,7 @@ resource "volterra_route" "ignore_route_changes" {
             for_each = match.value.query_params
             content {
               key   = query_params.key
-              exact = replace(query_params.value, " ", "%20")
+              exact = replace(replace(replace(replace(replace(query_params.value, " ", "%20"), "ä", "%C3%A4"), "ö", "%C3%B6"), "ü", "%C3%BC"), "é", "%C3%A9")
             }
           }
           dynamic "headers" {
