@@ -34,6 +34,24 @@ resource "volterra_origin_pool" "default" {
   // One of the arguments from this list "no_tls use_tls" must be set
 
   no_tls = var.value.origin_pool.no_tls
+  dynamic "use_tls" {
+    for_each = var.value.origin_pool.no_tls ? [] : [1]
+    content {
+      use_server_verification {
+        dynamic "trusted_ca" {
+          for_each = toset(var.value.origin_pool.use_tls.trusted_ca)
+          content {
+            name = trusted_ca.value
+          }
+        }
+      }
+      tls_config {
+        default_security = (var.value.origin_pool.user_tls.tls_config == "default_security" ? true : false)
+        low_security     = (var.value.origin_pool.user_tls.tls_config == "low_security" ? true : false)
+        medium_security  = (var.value.origin_pool.user_tls.tls_config == "medium_security" ? true : false)
+      }
+    }
+  }
 }
 
 
