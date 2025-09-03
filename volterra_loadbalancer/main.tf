@@ -52,6 +52,9 @@ resource "volterra_origin_pool" "default" {
         low_security     = (var.value.origin_pool.use_tls.tls_config == "low_security" ? true : false)
         medium_security  = (var.value.origin_pool.use_tls.tls_config == "medium_security" ? true : false)
       }
+      default_session_key_caching = true
+      no_mtls                     = true
+      use_host_header_as_sni      = true
     }
   }
 }
@@ -139,10 +142,17 @@ resource "volterra_http_loadbalancer" "default" {
     add_hsts = true
 
     http_redirect = true
+    enable_path_normalize = true
+    no_mtls = true
 
     // One of the arguments from this list "port port_ranges" must be set
 
     port = var.value.loadbalancer.https_port
+  }
+
+  l7_ddos_protection {
+    ddos_policy_none = false
+    mitigation_block = true
   }
 
 
@@ -231,6 +241,11 @@ resource "volterra_http_loadbalancer" "default" {
   // One of the arguments from this list "user_id_client_ip user_identification" must be set
 
   user_id_client_ip = var.value.loadbalancer.user_id_client_ip
+
+  default_sensitive_data_policy = try(var.value.loadbalancer.default_sensitive_data_policy, true)
+  disable_api_testing           = try(var.value.loadbalancer.disable_api_testing, true)
+  disable_malware_protection    = try(var.value.loadbalancer.disable_malware_protection, true)
+  disable_threat_mesh           = try(var.value.loadbalancer.disable_threat_mesh, true)
 
   dynamic "routes" {
     for_each = toset(var.value.loadbalancer.www_redirect)
