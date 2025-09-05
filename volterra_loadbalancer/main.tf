@@ -57,13 +57,16 @@ resource "volterra_origin_pool" "default" {
   dynamic "use_tls" {
     for_each = var.value.origin_pool.no_tls ? [] : [1]
     content {
-      use_server_verification {
-        dynamic "trusted_ca" {
-          for_each = toset(var.value.origin_pool.use_tls.trusted_ca)
-          content {
-            name      = trusted_ca.value
-            tenant    = var.value.tenant
-            namespace = "nspace-${var.platform}-${var.value.namespace}"
+      dynamic "use_server_verification" {
+        for_each = toset(var.value.origin_pool.use_tls.trusted_ca)
+        content {
+          dynamic "trusted_ca" {
+            for_each = toset(var.value.origin_pool.use_tls.trusted_ca)
+            content {
+              name      = trusted_ca.value
+              tenant    = var.value.tenant
+              namespace = "nspace-${var.platform}-${var.value.namespace}"
+            }
           }
         }
       }
