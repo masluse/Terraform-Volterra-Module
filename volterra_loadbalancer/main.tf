@@ -7,18 +7,38 @@ resource "volterra_origin_pool" "default" {
   origin_servers {
     // One of the arguments from this list "consul_service custom_endpoint_object k8s_service private_ip private_name public_ip public_name vn_private_ip vn_private_name" must be set
 
-    private_ip {
-      // One of the arguments from this list "ip ipv6" must be set
+    dynamic "private_ip" {
+      for_each = var.value.origin_pool.os_pn_ip == "" ? [] : [1]
+      content {
 
-      ip = var.value.origin_pool.os_pn_ip
 
-      inside_network = var.value.origin_pool.os_pn_inside_network
+        // One of the arguments from this list "ip ipv6" must be set
 
-      site_locator {
-        virtual_site {
-          name      = var.value.site_name
-          namespace = var.value.site_namespace
-          tenant    = var.value.tenant
+        ip = var.value.origin_pool.os_pn_ip
+
+        inside_network = var.value.origin_pool.os_pn_inside_network
+
+        site_locator {
+          virtual_site {
+            name      = var.value.site_name
+            namespace = var.value.site_namespace
+            tenant    = var.value.tenant
+          }
+        }
+      }
+    }
+
+    dynamic "private_name" {
+      for_each = var.value.origin_pool.os_pn_name == "" ? [] : [1]
+      content {
+        dns_name       = var.value.origin_pool.os_pn_name
+        inside_network = var.value.origin_pool.os_pn_inside_network
+        site_locator {
+          virtual_site {
+            name      = var.value.site_name
+            namespace = var.value.site_namespace
+            tenant    = var.value.tenant
+          }
         }
       }
     }
@@ -141,9 +161,9 @@ resource "volterra_http_loadbalancer" "default" {
   https_auto_cert {
     add_hsts = true
 
-    http_redirect = true
+    http_redirect         = true
     enable_path_normalize = true
-    no_mtls = true
+    no_mtls               = true
 
     // One of the arguments from this list "port port_ranges" must be set
 
