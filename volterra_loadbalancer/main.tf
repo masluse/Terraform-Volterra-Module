@@ -321,7 +321,7 @@ resource "volterra_http_loadbalancer" "default" {
           prefix = try(routes.value.prefix, null)
           path   = try(routes.value.path, null)
         }
-        disable_host_rewrite = true
+        disable_host_rewrite = try(routes.value.disable_host_rewrite, false)
         headers {
           exact = routes.value.host
           name  = "host"
