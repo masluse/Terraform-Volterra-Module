@@ -340,5 +340,18 @@ resource "volterra_http_loadbalancer" "default" {
     }
   }
 
+  routes {
+    direct_response_route {
+      http_method = "ANY"
+      path {
+        prefix = "/"
+      }
+      route_direct_response {
+        response_code = 403
+        response_body = "Not Configured"
+      }
+    }
+  }
+
   depends_on = [volterra_app_firewall.default, volterra_origin_pool.default]
 }
