@@ -1,22 +1,23 @@
 resource "volterra_origin_pool" "default" {
+  for_each               = var.value.origin_pool
   name                   = "pool-${var.platform}-${var.key}"
   namespace              = "nspace-${var.platform}-${var.value.namespace}"
-  endpoint_selection     = var.value.origin_pool.endpoint_selection
-  loadbalancer_algorithm = var.value.origin_pool.loadbalancer_algorithm
+  endpoint_selection     = each.value.endpoint_selection
+  loadbalancer_algorithm = each.value.loadbalancer_algorithm
 
   origin_servers {
     // One of the arguments from this list "consul_service custom_endpoint_object k8s_service private_ip private_name public_ip public_name vn_private_ip vn_private_name" must be set
 
     dynamic "private_ip" {
-      for_each = var.value.origin_pool.os_pn_ip == "" ? [] : [1]
+      for_each = each.value.os_pn_ip == "" ? [] : [1]
       content {
 
 
         // One of the arguments from this list "ip ipv6" must be set
 
-        ip = var.value.origin_pool.os_pn_ip
+        ip = each.value.os_pn_ip
 
-        inside_network = var.value.origin_pool.os_pn_inside_network
+        inside_network = each.value.os_pn_inside_network
 
         site_locator {
           virtual_site {
@@ -29,10 +30,10 @@ resource "volterra_origin_pool" "default" {
     }
 
     dynamic "private_name" {
-      for_each = var.value.origin_pool.os_pn_name == "" ? [] : [1]
+      for_each = each.value.os_pn_name == "" ? [] : [1]
       content {
-        dns_name       = var.value.origin_pool.os_pn_name
-        inside_network = var.value.origin_pool.os_pn_inside_network
+        dns_name       = each.value.os_pn_name
+        inside_network = each.value.os_pn_inside_network
         site_locator {
           virtual_site {
             name      = var.value.site_name
@@ -49,19 +50,19 @@ resource "volterra_origin_pool" "default" {
 
   // One of the arguments from this list "automatic_port lb_port port" must be set
 
-  port = var.value.origin_pool.port
+  port = each.value.port
 
   // One of the arguments from this list "no_tls use_tls" must be set
 
-  no_tls = var.value.origin_pool.no_tls
+  no_tls = each.value.no_tls
   dynamic "use_tls" {
-    for_each = var.value.origin_pool.no_tls ? [] : [1]
+    for_each = each.value.no_tls ? [] : [1]
     content {
       dynamic "use_server_verification" {
-        for_each = toset(var.value.origin_pool.use_tls.trusted_ca)
+        for_each = try(toset(each.value.use_tls.trusted_ca), {})
         content {
           dynamic "trusted_ca" {
-            for_each = toset(var.value.origin_pool.use_tls.trusted_ca)
+            for_each = toset(each.value.use_tls.trusted_ca)
             content {
               name      = trusted_ca.value
               tenant    = var.value.tenant
@@ -71,9 +72,9 @@ resource "volterra_origin_pool" "default" {
         }
       }
       tls_config {
-        default_security = (var.value.origin_pool.use_tls.tls_config == "default_security" ? true : false)
-        low_security     = (var.value.origin_pool.use_tls.tls_config == "low_security" ? true : false)
-        medium_security  = (var.value.origin_pool.use_tls.tls_config == "medium_security" ? true : false)
+        default_security = try((each.value.use_tls.tls_config == "default_security" ? true : false), true)
+        low_security     = try((each.value.use_tls.tls_config == "low_security" ? true : false), false)
+        medium_security  = try((each.value.use_tls.tls_config == "medium_security" ? true : false), false)
       }
       default_session_key_caching = true
       no_mtls                     = true
@@ -187,10 +188,10 @@ resource "volterra_http_loadbalancer" "default" {
   default_route_pools {
     pool {
       tenant    = var.value.tenant
-      name      = "pool-${var.platform}-${var.key}"
+      name      = "pool-${var.platform}-${var.key}-default"
       namespace = "nspace-${var.platform}-${var.value.namespace}"
     }
-    weight   = 1
+    weight   = 0
     priority = 1
   }
 
@@ -311,22 +312,23 @@ resource "volterra_http_loadbalancer" "default" {
         origin_pools {
           pool {
             tenant    = var.value.tenant
-            name      = "pool-${var.platform}-${var.key}"
+            name      = "pool-${var.platform}-${var.key}-${routes.value.origin_pool}"
             namespace = "nspace-${var.platform}-${var.value.namespace}"
           }
         }
         http_method = routes.value.http_method
         path {
-          prefix = routes.value.prefix
+          prefix = try(routes.value.prefix, null)
+          path   = try(routes.value.path, null)
         }
         disable_host_rewrite = true
         headers {
-          exact = routes.key
+          exact = routes.value.host
           name  = "host"
         }
         advanced_options {
           dynamic "request_headers_to_add" {
-            for_each = routes.value.request_headers_to_add
+            for_each = try(routes.value.request_headers_to_add, {})
             content {
               append = false
               name   = request_headers_to_add.key
