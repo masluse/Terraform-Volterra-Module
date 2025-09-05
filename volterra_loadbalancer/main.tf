@@ -348,7 +348,7 @@ resource "volterra_http_loadbalancer" "default" {
       }
       route_direct_response {
         response_code = 403
-        response_body = "Not Configured"
+        response_body = "Forbidden"
       }
     }
   }
