@@ -1,6 +1,6 @@
 resource "volterra_origin_pool" "default" {
   for_each               = var.value.origin_pool
-  name                   = "pool-${var.platform}-${var.key}"
+  name                   = "pool-${var.platform}-${var.key}-${each.key}"
   namespace              = "nspace-${var.platform}-${var.value.namespace}"
   endpoint_selection     = each.value.endpoint_selection
   loadbalancer_algorithm = each.value.loadbalancer_algorithm
