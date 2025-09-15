@@ -215,6 +215,13 @@ resource "volterra_http_loadbalancer" "default" {
     }
   }
 
+  dynamic "enable_ip_reputation" {
+    for_each = try(var.value.loadbalancer.enable_ip_threat_category == [] ? [] : [1], [])
+    content {
+      ip_threat_categories = var.value.loadbalancer.enable_ip_threat_category
+    }
+  }
+
   // One of the arguments from this list "api_definition api_definitions api_specification disable_api_definition" must be set
 
   disable_api_definition = var.value.loadbalancer.disable_api_definition
