@@ -124,7 +124,7 @@ data "cloudinit_config" "default" {
 # These modules create the Inside and Outside VPCs that are needed. One inside and one outside per node and per secruemesh site.
 module "inside-vpc" {
   source   = "terraform-google-modules/network/google//modules/vpc"
-  version  = "~> 11.0"
+  version  = "~> 12.0"
   for_each = var.value.securemesh_site
 
   project_id                             = var.service_project_id
@@ -136,7 +136,7 @@ module "inside-vpc" {
 
 module "outside-vpc" {
   source   = "terraform-google-modules/network/google//modules/vpc"
-  version  = "~> 11.0"
+  version  = "~> 12.0"
   for_each = var.value.securemesh_site
 
   project_id                             = var.service_project_id
@@ -167,7 +167,7 @@ resource "google_compute_network_peering" "inside-peering-2" {
 module "inside-subnets" {
   for_each = var.value.securemesh_site
   source   = "terraform-google-modules/network/google//modules/subnets"
-  version  = "~> 11.0"
+  version  = "~> 12.0"
 
   project_id   = var.service_project_id
   network_name = join("-", slice(split("-", each.value.gcp_inside_subnet_name), 1, 7))
@@ -185,7 +185,7 @@ module "inside-subnets" {
 module "outside-subnets" {
   for_each = var.value.securemesh_site
   source   = "terraform-google-modules/network/google//modules/subnets"
-  version  = "~> 11.0"
+  version  = "~> 12.0"
 
   project_id   = var.service_project_id
   network_name = join("-", slice(split("-", each.value.gcp_outside_subnet_name), 1, 7))
@@ -206,7 +206,7 @@ module "outside-subnets" {
 module "outside-routes" {
   for_each = var.value.securemesh_site
   source   = "terraform-google-modules/network/google//modules/routes"
-  version  = "~> 11.0"
+  version  = "~> 12.0"
 
   ## Variables
   project_id   = var.service_project_id
@@ -230,7 +230,7 @@ module "outside-routes" {
 module "inside-firewall_rules" {
   for_each = var.value.securemesh_site
   source   = "terraform-google-modules/network/google//modules/firewall-rules"
-  version  = "~> 11.0"
+  version  = "~> 12.0"
 
   ## Variables
   project_id   = var.service_project_id
@@ -297,7 +297,7 @@ module "inside-firewall_rules" {
 module "outside-firewall_rules" {
   for_each = var.value.securemesh_site
   source   = "terraform-google-modules/network/google//modules/firewall-rules"
-  version  = "~> 11.0"
+  version  = "~> 12.0"
 
   ## Variables
   project_id   = var.service_project_id
