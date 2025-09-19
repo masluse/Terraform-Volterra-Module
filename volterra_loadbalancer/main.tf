@@ -175,7 +175,7 @@ resource "volterra_http_loadbalancer" "default" {
   }
 
   l7_ddos_protection {
-    ddos_policy_none = false
+    ddos_policy_none = true
     mitigation_block = true
   }
 
@@ -328,6 +328,7 @@ resource "volterra_http_loadbalancer" "default" {
           prefix = try(routes.value.prefix, null)
           path   = try(routes.value.path, null)
         }
+        auto_host_rewrite    = try(routes.value.disable_host_rewrite == true ? false : true, true)
         disable_host_rewrite = try(routes.value.disable_host_rewrite, false)
         headers {
           exact = routes.value.host
@@ -342,6 +343,15 @@ resource "volterra_http_loadbalancer" "default" {
               value  = request_headers_to_add.value
             }
           }
+          common_buffering = true
+          common_hash_policy                         = true
+          default_retry_policy                       = true
+          disable_mirroring                          = true
+          disable_prefix_rewrite                     = true
+          disable_spdy                               = true
+          disable_web_socket_config                  = true
+          priority                                   = "DEFAULT"
+          retract_cluster                            = true
         }
       }
     }
