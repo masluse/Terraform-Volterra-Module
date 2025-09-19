@@ -343,15 +343,15 @@ resource "volterra_http_loadbalancer" "default" {
               value  = request_headers_to_add.value
             }
           }
-          common_buffering = true
-          common_hash_policy                         = true
-          default_retry_policy                       = true
-          disable_mirroring                          = true
-          disable_prefix_rewrite                     = true
-          disable_spdy                               = true
-          disable_web_socket_config                  = true
-          priority                                   = "DEFAULT"
-          retract_cluster                            = true
+          common_buffering                           = try(routes.value.request_headers_to_add == {} ? null : true, null)
+          common_hash_policy                         = try(routes.value.request_headers_to_add == {} ? null : true, null)
+          default_retry_policy                       = try(routes.value.request_headers_to_add == {} ? null : true, null)
+          disable_mirroring                          = try(routes.value.request_headers_to_add == {} ? null : true, null)
+          disable_prefix_rewrite                     = try(routes.value.request_headers_to_add == {} ? null : true, null)
+          disable_spdy                               = try(routes.value.request_headers_to_add == {} ? null : true, null)
+          disable_web_socket_config                  = try(routes.value.request_headers_to_add == {} ? null : true, null)
+          priority                                   = try(routes.value.request_headers_to_add == {} ? null : "DEFAULT", null)
+          retract_cluster                            = try(routes.value.request_headers_to_add == {} ? null : true, null)
         }
       }
     }
