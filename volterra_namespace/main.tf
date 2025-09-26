@@ -3,7 +3,7 @@ resource "volterra_namespace" "default" {
 }
 
 resource "volterra_service_policy" "default" {
-  name      = "sp-default-fenaco"
+  name      = "sp-${var.platform}-default-fenaco"
   namespace = volterra_namespace.default.name
   algo      = "FIRST_MATCH"
 
