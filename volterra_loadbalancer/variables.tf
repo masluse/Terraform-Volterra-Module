@@ -51,7 +51,7 @@ variable "value" {
         description = optional(string)
       })))
 
-      enable_ip_threat_category = optional(list(string))
+      enable_ip_threat_category = optional(list(string), [])
 
       disable_api_definition           = optional(bool)
       disable_api_discovery            = optional(bool)
