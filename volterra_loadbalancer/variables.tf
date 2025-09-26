@@ -60,7 +60,7 @@ variable "value" {
       disable_malicious_user_detection = optional(bool)
       disable_rate_limit               = optional(bool)
       no_service_policies              = optional(bool)
-      active_service_policies          = optional(map(string))
+      active_service_policies          = optional(map(object({})))
 
       disable_trust_client_ip_headers = optional(bool)
       user_id_client_ip               = optional(bool)
