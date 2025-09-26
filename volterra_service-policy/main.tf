@@ -11,8 +11,8 @@ resource "volterra_service_policy" "default" {
     default_action_next_policy = true
 
     prefix_list {
-      prefixes      = try(var.value.prefixes, [])
-      ipv6_prefixes = try(var.value.ipv6_prefixes, [])
+      prefixes      = var.value.prefixes
+      ipv6_prefixes = var.value.ipv6_prefixes
     }
   }
   // One of the arguments from this list "any_server server_name server_selector server_name_matcher" must be set

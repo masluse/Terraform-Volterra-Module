@@ -11,8 +11,8 @@ variable "key" {
 variable "value" {
   type = object({
     namespaces    = list(string)
-    prefixes      = optional(list(string))
-    ipv6_prefixes = optional(list(string))
+    prefixes      = optional(list(string), [])
+    ipv6_prefixes = optional(list(string), [])
   })
   description = "An object containing the configuration values for the service policy, including the namespace and optional lists of IPv4 and IPv6 prefixes."
 }
