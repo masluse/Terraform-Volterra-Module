@@ -1,6 +1,7 @@
 resource "volterra_service_policy" "default" {
+  for_each  = toset(var.value.namespaces)
   name      = "sp-${var.platform}-${var.key}"
-  namespace = "nspace-${var.platform}-${var.value.namespace}"
+  namespace = "nspace-${var.platform}-${each.value}"
   algo      = "FIRST_MATCH"
 
   // One of the arguments from this list "deny_list rule_list legacy_rule_list allow_all_requests deny_all_requests internally_generated allow_list" must be set

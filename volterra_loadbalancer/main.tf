@@ -257,7 +257,7 @@ resource "volterra_http_loadbalancer" "default" {
       dynamic "policies" {
         for_each = try(var.value.loadbalancer.active_service_policies, {})
         content {
-          name      = policies.key
+          name      = "sp-${var.platform}-${policies.key}"
           namespace = "nspace-${var.platform}-${var.value.namespace}"
           tenant    = var.value.tenant
         }
@@ -343,15 +343,15 @@ resource "volterra_http_loadbalancer" "default" {
               value  = request_headers_to_add.value
             }
           }
-          common_buffering                           = try(routes.value.request_headers_to_add == {} ? null : true, null)
-          common_hash_policy                         = try(routes.value.request_headers_to_add == {} ? null : true, null)
-          default_retry_policy                       = try(routes.value.request_headers_to_add == {} ? null : true, null)
-          disable_mirroring                          = try(routes.value.request_headers_to_add == {} ? null : true, null)
-          disable_prefix_rewrite                     = try(routes.value.request_headers_to_add == {} ? null : true, null)
-          disable_spdy                               = try(routes.value.request_headers_to_add == {} ? null : true, null)
-          disable_web_socket_config                  = try(routes.value.request_headers_to_add == {} ? null : true, null)
-          priority                                   = try(routes.value.request_headers_to_add == {} ? null : "DEFAULT", null)
-          retract_cluster                            = try(routes.value.request_headers_to_add == {} ? null : true, null)
+          common_buffering          = try(routes.value.request_headers_to_add == {} ? null : true, null)
+          common_hash_policy        = try(routes.value.request_headers_to_add == {} ? null : true, null)
+          default_retry_policy      = try(routes.value.request_headers_to_add == {} ? null : true, null)
+          disable_mirroring         = try(routes.value.request_headers_to_add == {} ? null : true, null)
+          disable_prefix_rewrite    = try(routes.value.request_headers_to_add == {} ? null : true, null)
+          disable_spdy              = try(routes.value.request_headers_to_add == {} ? null : true, null)
+          disable_web_socket_config = try(routes.value.request_headers_to_add == {} ? null : true, null)
+          priority                  = try(routes.value.request_headers_to_add == {} ? null : "DEFAULT", null)
+          retract_cluster           = try(routes.value.request_headers_to_add == {} ? null : true, null)
         }
       }
     }

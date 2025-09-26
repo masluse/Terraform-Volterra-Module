@@ -10,7 +10,7 @@ variable "key" {
 
 variable "value" {
   type = object({
-    namespace     = string
+    namespaces    = list(string)
     prefixes      = optional(list(string))
     ipv6_prefixes = optional(list(string))
   })
