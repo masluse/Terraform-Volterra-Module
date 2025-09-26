@@ -59,7 +59,7 @@ resource "volterra_origin_pool" "default" {
     for_each = each.value.no_tls ? [] : [1]
     content {
       dynamic "use_server_verification" {
-        for_each = try(toset(each.value.use_tls.trusted_ca), {})
+        for_each = toset(each.value.use_tls.trusted_ca)
         content {
           dynamic "trusted_ca" {
             for_each = toset(each.value.use_tls.trusted_ca)
@@ -72,9 +72,9 @@ resource "volterra_origin_pool" "default" {
         }
       }
       tls_config {
-        default_security = try((each.value.use_tls.tls_config == "default_security" ? true : false), true)
-        low_security     = try((each.value.use_tls.tls_config == "low_security" ? true : false), false)
-        medium_security  = try((each.value.use_tls.tls_config == "medium_security" ? true : false), false)
+        default_security = (each.value.use_tls.tls_config == "default_security" ? true : false)
+        low_security     = (each.value.use_tls.tls_config == "low_security" ? true : false)
+        medium_security  = (each.value.use_tls.tls_config == "medium_security" ? true : false)
       }
       default_session_key_caching = true
       no_mtls                     = true
@@ -216,7 +216,7 @@ resource "volterra_http_loadbalancer" "default" {
   }
 
   dynamic "enable_ip_reputation" {
-    for_each = try(var.value.loadbalancer.enable_ip_threat_category == [] ? [] : [1], [])
+    for_each = var.value.loadbalancer.enable_ip_threat_category == [] ? [] : [1]
     content {
       ip_threat_categories = var.value.loadbalancer.enable_ip_threat_category
     }
@@ -255,7 +255,7 @@ resource "volterra_http_loadbalancer" "default" {
     for_each = var.value.loadbalancer.no_service_policies ? [] : [1]
     content {
       dynamic "policies" {
-        for_each = try(var.value.loadbalancer.active_service_policies, {})
+        for_each = var.value.loadbalancer.active_service_policies
         content {
           name      = "sp-${var.platform}-${policies.key}"
           namespace = "nspace-${var.platform}-${var.value.namespace}"
@@ -273,10 +273,10 @@ resource "volterra_http_loadbalancer" "default" {
 
   user_id_client_ip = var.value.loadbalancer.user_id_client_ip
 
-  default_sensitive_data_policy = try(var.value.loadbalancer.default_sensitive_data_policy, true)
-  disable_api_testing           = try(var.value.loadbalancer.disable_api_testing, true)
-  disable_malware_protection    = try(var.value.loadbalancer.disable_malware_protection, true)
-  disable_threat_mesh           = try(var.value.loadbalancer.disable_threat_mesh, true)
+  default_sensitive_data_policy = var.value.loadbalancer.default_sensitive_data_policy
+  disable_api_testing           = var.value.loadbalancer.disable_api_testing
+  disable_malware_protection    = var.value.loadbalancer.disable_malware_protection
+  disable_threat_mesh           = var.value.loadbalancer.disable_threat_mesh
 
   dynamic "routes" {
     for_each = toset(var.value.loadbalancer.www_redirect)
@@ -325,33 +325,33 @@ resource "volterra_http_loadbalancer" "default" {
         }
         http_method = routes.value.http_method
         path {
-          prefix = try(routes.value.prefix, null)
-          path   = try(routes.value.path, null)
+          prefix = routes.value.prefix
+          path   = routes.value.path
         }
-        auto_host_rewrite    = try(routes.value.disable_host_rewrite == true ? false : true, true)
-        disable_host_rewrite = try(routes.value.disable_host_rewrite, false)
+        auto_host_rewrite    = routes.value.disable_host_rewrite == true ? false : true
+        disable_host_rewrite = routes.value.disable_host_rewrite
         headers {
           exact = routes.value.host
           name  = "host"
         }
         advanced_options {
           dynamic "request_headers_to_add" {
-            for_each = try(routes.value.request_headers_to_add, {})
+            for_each = routes.value.request_headers_to_add
             content {
               append = false
               name   = request_headers_to_add.key
               value  = request_headers_to_add.value
             }
           }
-          common_buffering          = try(routes.value.request_headers_to_add == {} ? null : true, null)
-          common_hash_policy        = try(routes.value.request_headers_to_add == {} ? null : true, null)
-          default_retry_policy      = try(routes.value.request_headers_to_add == {} ? null : true, null)
-          disable_mirroring         = try(routes.value.request_headers_to_add == {} ? null : true, null)
-          disable_prefix_rewrite    = try(routes.value.request_headers_to_add == {} ? null : true, null)
-          disable_spdy              = try(routes.value.request_headers_to_add == {} ? null : true, null)
-          disable_web_socket_config = try(routes.value.request_headers_to_add == {} ? null : true, null)
-          priority                  = try(routes.value.request_headers_to_add == {} ? null : "DEFAULT", null)
-          retract_cluster           = try(routes.value.request_headers_to_add == {} ? null : true, null)
+          common_buffering          = routes.value.request_headers_to_add == {} ? null : true
+          common_hash_policy        = routes.value.request_headers_to_add == {} ? null : true
+          default_retry_policy      = routes.value.request_headers_to_add == {} ? null : true
+          disable_mirroring         = routes.value.request_headers_to_add == {} ? null : true
+          disable_prefix_rewrite    = routes.value.request_headers_to_add == {} ? null : true
+          disable_spdy              = routes.value.request_headers_to_add == {} ? null : true
+          disable_web_socket_config = routes.value.request_headers_to_add == {} ? null : true
+          priority                  = routes.value.request_headers_to_add == {} ? null : "DEFAULT"
+          retract_cluster           = routes.value.request_headers_to_add == {} ? null : true
         }
       }
     }

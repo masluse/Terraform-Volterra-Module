@@ -19,8 +19,8 @@ variable "value" {
       no_tls = optional(bool)
 
       use_tls = optional(object({
-        tls_config = optional(string)
-        trusted_ca = optional(list(string))
+        tls_config = optional(string, "default_security")
+        trusted_ca = optional(list(string), [])
       }))
     })))
 
@@ -60,27 +60,27 @@ variable "value" {
       disable_malicious_user_detection = optional(bool)
       disable_rate_limit               = optional(bool)
       no_service_policies              = optional(bool)
-      active_service_policies          = optional(map(object({})))
+      active_service_policies          = optional(map(object({})), {})
 
       disable_trust_client_ip_headers = optional(bool)
       user_id_client_ip               = optional(bool)
 
-      default_sensitive_data_policy = optional(bool)
-      disable_api_testing           = optional(bool)
-      disable_malware_protection    = optional(bool)
-      disable_threat_mesh           = optional(bool)
+      default_sensitive_data_policy = optional(bool, true)
+      disable_api_testing           = optional(bool, true)
+      disable_malware_protection    = optional(bool, true)
+      disable_threat_mesh           = optional(bool, true)
 
       www_redirect = optional(list(string))
       custom_route = optional(list(string))
       simple_routes = optional(map(object({
         origin_pool = optional(string)
         http_method = optional(string)
-        prefix      = optional(string)
-        path        = optional(string)
+        prefix      = optional(string, null)
+        path        = optional(string, null)
         host        = optional(string)
 
-        disable_host_rewrite   = optional(bool)
-        request_headers_to_add = optional(map(string))
+        disable_host_rewrite   = optional(bool, false)
+        request_headers_to_add = optional(map(string), {})
       })))
     }))
   })
