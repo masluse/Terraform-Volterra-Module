@@ -182,7 +182,18 @@ resource "volterra_http_loadbalancer" "default" {
 
   // One of the arguments from this list "advertise_custom advertise_on_public advertise_on_public_default_vip do_not_advertise" must be set
 
-  advertise_on_public_default_vip = var.value.loadbalancer.advertise_on_public_default_vip
+  advertise_on_public_default_vip = var.platform == "gcp" ? true : false
+
+  dynamic "advertise_on_public" {
+    for_each = var.platform == "gcp" ? [] : [1]
+    content {
+      public_ip {
+        name      = var.value.loadbalancer.public_ip_name == null ? "TOBEADDED" : var.value.loadbalancer.public_ip_name
+        namespace = "shared"
+        tenant    = var.value.tenant
+      }
+    }
+  }
 
   // Origin Pool configuration
   default_route_pools {

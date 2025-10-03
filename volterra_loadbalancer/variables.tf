@@ -41,9 +41,9 @@ variable "value" {
 
     # Load Balancer
     loadbalancer = optional(object({
-      domains                         = optional(list(string))
-      https_port                      = optional(number)
-      advertise_on_public_default_vip = optional(bool)
+      domains        = optional(list(string))
+      https_port     = optional(number)
+      public_ip_name = optional(string, null)
 
       trusted_clients = optional(map(object({
         actions     = optional(list(string))
