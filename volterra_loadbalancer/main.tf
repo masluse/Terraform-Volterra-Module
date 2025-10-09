@@ -188,7 +188,7 @@ resource "volterra_http_loadbalancer" "default" {
     for_each = var.platform == "gcp" ? [] : [1]
     content {
       public_ip {
-        name      = var.value.loadbalancer.public_ip_name == null ? "TOBEADDED" : var.value.loadbalancer.public_ip_name
+        name      = var.value.loadbalancer.public_ip_name == null ? "ip-159-60-157-42" : var.value.loadbalancer.public_ip_name
         namespace = "shared"
         tenant    = var.value.tenant
       }
