@@ -18,10 +18,10 @@ variable "value" {
       port   = optional(number)
       no_tls = optional(bool)
 
-      use_tls = optional(object({
+      use_tls = object({
         tls_config = optional(string, "default_security")
         trusted_ca = optional(list(string), [])
-      }))
+      })
     })))
 
     # App Firewall
