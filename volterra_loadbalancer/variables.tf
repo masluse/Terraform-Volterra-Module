@@ -18,9 +18,13 @@ variable "value" {
       port   = optional(number)
       no_tls = optional(bool)
 
-      use_tls = object({
+      use_tls = optional(object({
         tls_config = optional(string, "default_security")
         trusted_ca = optional(list(string), [])
+      }),
+      {
+        tls_config = "default_security"
+        trusted_ca = []
       })
     })))
 
