@@ -233,6 +233,24 @@ resource "volterra_http_loadbalancer" "default" {
     }
   }
 
+  dynamic "jwt_validation" {
+    for_each = var.value.loadbalancer.jwt_validation == {} ? [] : [1]
+    content {
+      action {
+        block = true
+      }
+      jwks_config {
+        cleartext = jwt_validation.value.cleartext
+      }
+      target {
+        all_endpoint = true
+      }
+      token_location {
+        bearer_token = true
+      }
+    }
+  }
+
   // One of the arguments from this list "api_definition api_definitions api_specification disable_api_definition" must be set
 
   disable_api_definition = var.value.loadbalancer.disable_api_definition

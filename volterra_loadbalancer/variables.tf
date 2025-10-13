@@ -21,10 +21,10 @@ variable "value" {
       use_tls = optional(object({
         tls_config = optional(string, "default_security")
         trusted_ca = optional(list(string), [])
-      }),
-      {
-        tls_config = "default_security"
-        trusted_ca = []
+        }),
+        {
+          tls_config = "default_security"
+          trusted_ca = []
       })
     })))
 
@@ -56,6 +56,8 @@ variable "value" {
       })))
 
       enable_ip_threat_category = optional(list(string), [])
+
+      jwt_validation = optional(object({}), {})
 
       disable_api_definition           = optional(bool)
       disable_api_discovery            = optional(bool)
