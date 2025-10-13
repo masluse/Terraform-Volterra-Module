@@ -234,7 +234,7 @@ resource "volterra_http_loadbalancer" "default" {
   }
 
   dynamic "jwt_validation" {
-    for_each = var.value.loadbalancer.jwt_validation == {} ? [] : [1]
+    for_each = var.value.loadbalancer.jwt_validation.cleartext == "" ? [] : [1]
     content {
       action {
         block = true
