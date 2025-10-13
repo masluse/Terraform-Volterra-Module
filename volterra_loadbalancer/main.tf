@@ -234,19 +234,24 @@ resource "volterra_http_loadbalancer" "default" {
   }
 
   dynamic "jwt_validation" {
-    for_each = var.value.loadbalancer.jwt_validation.cleartext == "" ? [] : [1]
+    for_each = var.value.loadbalancer.jwt_validation == {} ? [] : [1]
     content {
       action {
         block = true
       }
       jwks_config {
-        cleartext = jwt_validation.value.cleartext
+        cleartext = var.value.loadbalancer.jwt_validation.cleartext
       }
       target {
         all_endpoint = true
       }
       token_location {
         bearer_token = true
+      }
+      reserved_claims {
+        issuer_disable = true
+        validate_period_disable = true
+        audience_disable = true
       }
     }
   }
