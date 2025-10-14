@@ -249,9 +249,10 @@ resource "volterra_http_loadbalancer" "default" {
         bearer_token = true
       }
       reserved_claims {
-        issuer_disable = true
+        issuer                  = var.value.loadbalancer.jwt_validation.issuer == "" ? null : var.value.loadbalancer.jwt_validation.issuer
+        issuer_disable          = var.value.loadbalancer.jwt_validation.issuer == "" ? true : false
         validate_period_disable = true
-        audience_disable = true
+        audience_disable        = true
       }
     }
   }

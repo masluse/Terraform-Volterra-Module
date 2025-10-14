@@ -57,7 +57,7 @@ variable "value" {
 
       enable_ip_threat_category = optional(list(string), [])
 
-      jwt_validation = optional(object({cleartext = string}), {cleartext = ""})
+      jwt_validation = optional(object({ cleartext = string, issuer = optional(string, "") }), { cleartext = "" })
 
       disable_api_definition           = optional(bool)
       disable_api_discovery            = optional(bool)
