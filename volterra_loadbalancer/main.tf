@@ -257,6 +257,30 @@ resource "volterra_http_loadbalancer" "default" {
     }
   }
 
+  # Used when a simple Route has Service Policy enabled
+  api_protection_rules {
+    dynamic "api_endpoint_rules" {
+      for_each = { for k, v in var.value.loadbalancer.simple_routes : k => v if v.service_policy == true }
+      content {
+        metadata {
+          name        = "api-${replace(api_endpoint_rules.value.host, ".", "-")}"
+          description = "Block access from IPs to the Domain ${api_endpoint_rules.value.host}"
+        }
+        action {
+          deny = true
+        }
+        specific_domain   = api_endpoint_rules.value.host
+        api_endpoint_path = "/*"
+        client_matcher {
+          ip_prefix_list {
+            ip_prefixes  = api_endpoint_rules.value.ip_prefixes
+            invert_match = true
+          }
+        }
+      }
+    }
+  }
+
   // One of the arguments from this list "api_definition api_definitions api_specification disable_api_definition" must be set
 
   disable_api_definition = var.value.loadbalancer.disable_api_definition
