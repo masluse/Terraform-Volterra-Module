@@ -79,11 +79,13 @@ variable "value" {
       www_redirect = optional(list(string))
       custom_route = optional(list(string))
       simple_routes = optional(map(object({
-        origin_pool = optional(string)
-        http_method = optional(string)
-        prefix      = optional(string, null)
-        path        = optional(string, null)
-        host        = optional(string)
+        origin_pool    = optional(string)
+        http_method    = optional(string)
+        prefix         = optional(string, null)
+        path           = optional(string, null)
+        host           = optional(string)
+        service_policy = optional(bool, false)
+        ip_prefixes    = optional(list(string), ["193.200.144.0/24", "195.245.237.0/24", "91.107.224.192/32"])
 
         disable_host_rewrite   = optional(bool, false)
         request_headers_to_add = optional(map(string), {})

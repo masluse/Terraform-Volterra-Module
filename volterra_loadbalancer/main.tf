@@ -195,6 +195,30 @@ resource "volterra_http_loadbalancer" "default" {
     }
   }
 
+  # Used when a simple Route has Service Policy enabled
+  api_protection_rules {
+    dynamic "api_group_rules" {
+      for_each = { for k, v in var.value.loadbalancer.simple_routes : k => v if v.service_policy == true }
+      content {
+        metadata {
+          name        = "api-${replace(api_group_rules.value.host, ".", "-")}"
+          description = "Block access from IPs to the Domain ${api_group_rules.value.host}"
+        }
+        action {
+          deny = true
+        }
+        specific_domain = api_group_rules.value.host
+        base_path       = "/"
+        client_matcher {
+          ip_prefix_list {
+            ip_prefixes  = api_group_rules.value.ip_prefixes
+            invert_match = true
+          }
+        }
+      }
+    }
+  }
+
   // Origin Pool configuration
   default_route_pools {
     pool {
