@@ -361,7 +361,7 @@ resource "volterra_http_loadbalancer" "default" {
   dynamic "trusted_clients" {
     for_each = var.value.loadbalancer.trusted_clients_internal == true ? toset(local.onprem_subnets) : []
     content {
-      actions   = local.actions
+      actions   = local.onprem_subnet_actions
       ip_prefix = trusted_clients.key
       metadata {
         name        = "tc-${replace(replace(trusted_clients.key, ".", "-"), "/", "-")}"
