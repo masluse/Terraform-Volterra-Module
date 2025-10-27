@@ -57,8 +57,9 @@ variable "value" {
 
       enable_ip_threat_category = optional(list(string), [])
 
+      trusted_clients_internal = optional(bool, false)
       trusted_clients = optional(map(object({
-        actions = optional(list(string), ["SKIP_PROCESSING_WAF", "SKIP_PROCESSING_BOT", "SKIP_PROCESSING_MUM", "SKIP_PROCESSING_IP_REPUTATION", "SKIP_PROCESSING_API_PROTECTION", "SKIP_PROCESSING_OAS_VALIDATION", "SKIP_PROCESSING_DDOS_PROTECTION", "SKIP_PROCESSING_THREAT_MESH", "SKIP_PROCESSING_MALWARE_PROTECTION"])
+        actions = optional(list(string), local.actions)
       })), {})
 
       jwt_validation = optional(object({ cleartext = string, issuer = optional(string, "") }), { cleartext = "" })

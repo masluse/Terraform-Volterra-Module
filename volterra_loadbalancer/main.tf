@@ -370,6 +370,18 @@ resource "volterra_http_loadbalancer" "default" {
     }
   }
 
+  dynamic "trusted_clients" {
+    for_each = local.value.loadbalancer.trusted_clients_internal == true ? toset(local.onprem_subnets) : []
+    content {
+      actions   = local.actions
+      ip_prefix = trusted_clients.key
+      metadata {
+        name        = "tc-${replace(replace(trusted_clients.key, ".", "-"), "/", "-")}"
+        description = "Trusted Client for Onprem (${trusted_clients.key})"
+      }
+    }
+  }
+
   dynamic "routes" {
     for_each = toset(var.value.loadbalancer.custom_route)
     content {
