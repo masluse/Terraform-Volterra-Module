@@ -49,12 +49,6 @@ variable "value" {
       https_port     = optional(number)
       public_ip_name = optional(string, null)
 
-      trusted_clients = optional(map(object({
-        actions     = optional(list(string))
-        ip_prefix   = optional(string)
-        description = optional(string)
-      })))
-
       enable_ip_threat_category = optional(list(string), [])
 
       trusted_clients_internal = optional(bool, false)
