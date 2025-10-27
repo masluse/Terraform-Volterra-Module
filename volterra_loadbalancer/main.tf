@@ -347,7 +347,7 @@ resource "volterra_http_loadbalancer" "default" {
   }
 
   dynamic "trusted_clients" {
-    for_each = local.value.loadbalancer.trusted_clients
+    for_each = var.value.loadbalancer.trusted_clients
     content {
       actions   = trusted_clients.value.actions
       ip_prefix = trusted_clients.key
@@ -359,7 +359,7 @@ resource "volterra_http_loadbalancer" "default" {
   }
 
   dynamic "trusted_clients" {
-    for_each = local.value.loadbalancer.trusted_clients_internal == true ? toset(local.onprem_subnets) : []
+    for_each = var.value.loadbalancer.trusted_clients_internal == true ? toset(local.onprem_subnets) : []
     content {
       actions   = local.actions
       ip_prefix = trusted_clients.key
