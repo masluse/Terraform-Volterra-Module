@@ -211,7 +211,7 @@ resource "volterra_http_loadbalancer" "default" {
         base_path       = "/"
         client_matcher {
           ip_prefix_list {
-            ip_prefixes  = api_groups_rules.value.ip_prefixes == ["TAKE_FROM_LOCALS"] ? locals.onprem_subnets : api_groups_rules.value.ip_prefixes
+            ip_prefixes  = api_groups_rules.value.ip_prefixes == ["TAKE_FROM_LOCALS"] ? local.onprem_subnets : api_groups_rules.value.ip_prefixes
             invert_match = true
           }
         }
