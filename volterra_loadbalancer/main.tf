@@ -211,7 +211,7 @@ resource "volterra_http_loadbalancer" "default" {
         base_path       = "/"
         client_matcher {
           ip_prefix_list {
-            ip_prefixes  = api_groups_rules.value.ip_prefixes == ["TAKE_FROM_LOCALS"] ? local.onprem_subnets : api_groups_rules.value.ip_prefixes
+            ip_prefixes  = api_groups_rules.value.ip_prefixes[0] == "TAKE_FROM_LOCALS" ? local.onprem_subnets : api_groups_rules.value.ip_prefixes
             invert_match = true
           }
         }
@@ -349,7 +349,7 @@ resource "volterra_http_loadbalancer" "default" {
   dynamic "trusted_clients" {
     for_each = var.value.loadbalancer.trusted_clients
     content {
-      actions   = trusted_clients.value.actions == ["TAKE_FROM_LOCALS"] ? local.default_actions : trusted_clients.value.actions
+      actions   = trusted_clients.value.actions[0] == "TAKE_FROM_LOCALS" ? local.default_actions : trusted_clients.value.actions
       ip_prefix = trusted_clients.key
       metadata {
         name        = "tc-${replace(replace(trusted_clients.key, ".", "-"), "/", "-")}"
