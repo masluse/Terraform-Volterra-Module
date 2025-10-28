@@ -14,7 +14,7 @@ resource "volterra_service_policy" "default" {
     default_action_next_policy = true
 
     prefix_list {
-      prefixes      = ["193.200.144.0/24", "195.245.237.0/24", "91.107.224.192/32"]
+      prefixes      = local.onprem_subnets
       ipv6_prefixes = []
     }
   }

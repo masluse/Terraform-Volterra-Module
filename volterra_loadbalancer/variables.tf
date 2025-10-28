@@ -53,7 +53,7 @@ variable "value" {
 
       trusted_clients_internal = optional(bool, false)
       trusted_clients = optional(map(object({
-        actions = optional(list(string), ["SKIP_PROCESSING_WAF", "SKIP_PROCESSING_BOT", "SKIP_PROCESSING_MUM", "SKIP_PROCESSING_IP_REPUTATION", "SKIP_PROCESSING_API_PROTECTION", "SKIP_PROCESSING_OAS_VALIDATION", "SKIP_PROCESSING_DDOS_PROTECTION", "SKIP_PROCESSING_THREAT_MESH", "SKIP_PROCESSING_MALWARE_PROTECTION"])
+        actions = optional(list(string), ["TAKE_FROM_LOCALS"])
       })), {})
 
       jwt_validation = optional(object({ cleartext = string, issuer = optional(string, "") }), { cleartext = "" })
@@ -84,7 +84,7 @@ variable "value" {
         path           = optional(string, null)
         host           = optional(string)
         service_policy = optional(bool, false)
-        ip_prefixes    = optional(list(string), ["193.200.144.0/24", "195.245.237.0/24", "91.107.224.192/32"])
+        ip_prefixes    = optional(list(string), ["TAKE_FROM_LOCALS"])
 
         disable_host_rewrite   = optional(bool, false)
         request_headers_to_add = optional(map(string), {})

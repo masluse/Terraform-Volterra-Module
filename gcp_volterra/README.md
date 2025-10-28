@@ -102,13 +102,13 @@ No requirements.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_inside-firewall_rules"></a> [inside-firewall\_rules](#module\_inside-firewall\_rules) | terraform-google-modules/network/google//modules/firewall-rules | ~> 11.0 |
-| <a name="module_inside-subnets"></a> [inside-subnets](#module\_inside-subnets) | terraform-google-modules/network/google//modules/subnets | ~> 11.0 |
-| <a name="module_inside-vpc"></a> [inside-vpc](#module\_inside-vpc) | terraform-google-modules/network/google//modules/vpc | ~> 11.0 |
-| <a name="module_outside-firewall_rules"></a> [outside-firewall\_rules](#module\_outside-firewall\_rules) | terraform-google-modules/network/google//modules/firewall-rules | ~> 11.0 |
-| <a name="module_outside-routes"></a> [outside-routes](#module\_outside-routes) | terraform-google-modules/network/google//modules/routes | ~> 11.0 |
-| <a name="module_outside-subnets"></a> [outside-subnets](#module\_outside-subnets) | terraform-google-modules/network/google//modules/subnets | ~> 11.0 |
-| <a name="module_outside-vpc"></a> [outside-vpc](#module\_outside-vpc) | terraform-google-modules/network/google//modules/vpc | ~> 11.0 |
+| <a name="module_inside-firewall_rules"></a> [inside-firewall\_rules](#module\_inside-firewall\_rules) | terraform-google-modules/network/google//modules/firewall-rules | ~> 12.0 |
+| <a name="module_inside-subnets"></a> [inside-subnets](#module\_inside-subnets) | terraform-google-modules/network/google//modules/subnets | ~> 12.0 |
+| <a name="module_inside-vpc"></a> [inside-vpc](#module\_inside-vpc) | terraform-google-modules/network/google//modules/vpc | ~> 12.0 |
+| <a name="module_outside-firewall_rules"></a> [outside-firewall\_rules](#module\_outside-firewall\_rules) | terraform-google-modules/network/google//modules/firewall-rules | ~> 12.0 |
+| <a name="module_outside-routes"></a> [outside-routes](#module\_outside-routes) | terraform-google-modules/network/google//modules/routes | ~> 12.0 |
+| <a name="module_outside-subnets"></a> [outside-subnets](#module\_outside-subnets) | terraform-google-modules/network/google//modules/subnets | ~> 12.0 |
+| <a name="module_outside-vpc"></a> [outside-vpc](#module\_outside-vpc) | terraform-google-modules/network/google//modules/vpc | ~> 12.0 |
 
 ## Resources
 
