@@ -1,34 +1,3 @@
-# Volterra Namespace Module
-
-Creates a Volterra Namespace.
-
-## Usage
-
-To use this module, include it in your Terraform configuration as shown below:
-
-### locals.tf
-
-```hcl
-locals {
-  namespaces = {
-    aop = {}
-  }
-}
-```
-
-### modules.tf
-
-```hcl
-module "volterra_namespace" {
-  source   = "git::https://gitlab.gcp.fenaco.com/templates/terraform-modules/terraform-volterra.git//volterra_namespace?ref=v1.0.1"
-  for_each = local.namespaces
-
-  key      = each.key
-  value    = each.value
-  platform = local.platform
-}
-```
-
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
